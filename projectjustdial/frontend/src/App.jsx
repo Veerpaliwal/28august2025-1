@@ -17,6 +17,7 @@ const pages = ['HOME', 'SERVICES', 'CONTACT US'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [elevate, setElevate] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -26,8 +27,24 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setElevate(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <AppBar position="static" sx={{ bgcolor: 'black' }}>
+    <AppBar
+      position="fixed"
+      sx={{
+        bgcolor: 'rgba(0,0,0,0.6)',
+        backdropFilter: 'blur(10px)',
+        transition: 'all 0.3s ease',
+        boxShadow: elevate ? '0 4px 15px rgba(0,0,0,0.4)' : 'none',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <PersonIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }} />
@@ -42,8 +59,10 @@ function ResponsiveAppBar() {
               fontFamily: 'Georgia, serif',
               fontWeight: 700,
               letterSpacing: '.1rem',
-              color: 'white',
               textDecoration: 'none',
+              background: 'linear-gradient(45deg, #d4a373, #f4e1c1)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             unique beauty parlour
@@ -75,7 +94,11 @@ function ResponsiveAppBar() {
               <MenuItem>
                 <Button
                   variant="contained"
-                  sx={{ backgroundColor: '#d4a373', color: 'white', width: '100%' }}
+                  sx={{
+                    background: 'linear-gradient(45deg, #d4a373, #f4e1c1)',
+                    color: 'white',
+                    width: '100%',
+                  }}
                 >
                   BOOK NOW
                 </Button>
@@ -97,8 +120,10 @@ function ResponsiveAppBar() {
               fontFamily: 'Georgia, serif',
               fontWeight: 700,
               letterSpacing: '.1rem',
-              color: 'white',
               textDecoration: 'none',
+              background: 'linear-gradient(45deg, #d4a373, #f4e1c1)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             unique beauty parlour
@@ -110,7 +135,24 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block', mx: 1 }}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  mx: 1.5,
+                  position: 'relative',
+                  '&:after': {
+                    content: '""',
+                    position: 'absolute',
+                    width: 0,
+                    height: 2,
+                    left: 0,
+                    bottom: -4,
+                    bgcolor: '#d4a373',
+                    transition: '0.3s',
+                  },
+                  '&:hover:after': { width: '100%' },
+                }}
               >
                 {page}
               </Button>
@@ -121,7 +163,14 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Button
               variant="contained"
-              sx={{ backgroundColor: '#d4a373', color: 'white', px: 2 }}
+              sx={{
+                background: 'linear-gradient(45deg, #d4a373, #f4e1c1)',
+                color: '#000',
+                px: 3,
+                py: 1,
+                fontWeight: 'bold',
+                '&:hover': { background: 'linear-gradient(45deg, #b5835a, #f4e1c1)' },
+              }}
             >
               BOOK NOW
             </Button>
@@ -135,24 +184,24 @@ function ResponsiveAppBar() {
 function App() {
   const services = [
     {
-      title: "HAIR EXTENSION",
-      img: "https://www.youbeautylounge.com/uploads/images/_article/hair-extensions-article.webp",
+      title: 'HAIR EXTENSION',
+      img: 'https://www.youbeautylounge.com/uploads/images/_article/hair-extensions-article.webp',
     },
     {
-      title: "EYELASH EXTENSION",
-      img: "https://charmlash.com/wp-content/uploads/2023/07/122224564_375782766800323_4181425100806826705_n-scaled-1-734x734.jpg.webp",
+      title: 'EYELASH EXTENSION',
+      img: 'https://charmlash.com/wp-content/uploads/2023/07/122224564_375782766800323_4181425100806826705_n-scaled-1-734x734.jpg.webp',
     },
     {
-      title: "SEMI PERMANENT EYEBROW",
-      img: "https://images.squarespace-cdn.com/content/v1/62695fd3d9b2bd4b35cb58eb/05a89d1b-a452-4f5f-9329-9420e863c65c/image0%2810%29.jpg",
+      title: 'SEMI PERMANENT EYEBROW',
+      img: 'https://images.squarespace-cdn.com/content/v1/62695fd3d9b2bd4b35cb58eb/05a89d1b-a452-4f5f-9329-9420e863c65c/image0%2810%29.jpg',
     },
     {
-      title: "MAKEUP ART",
-      img: "https://images.stockcake.com/public/a/1/3/a133ca12-dfe5-4f8f-ad9e-9472ad7ebb59_large/vibrant-makeup-portrait-stockcake.jpg",
+      title: 'MAKEUP ART',
+      img: 'https://images.stockcake.com/public/a/1/3/a133ca12-dfe5-4f8f-ad9e-9472ad7ebb59_large/vibrant-makeup-portrait-stockcake.jpg',
     },
     {
-      title: "BRIDAL/WEDDING SERVICES",
-      img: "https://www.changingfaces.net/wp-content/uploads/2024/05/Kim-55.jpg",
+      title: 'BRIDAL/WEDDING SERVICES',
+      img: 'https://www.changingfaces.net/wp-content/uploads/2024/05/Kim-55.jpg',
     },
   ];
 
@@ -213,44 +262,42 @@ function App() {
         {/* About Section */}
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "center",
-            justifyContent: "center",
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: 'center',
+            justifyContent: 'center',
             py: 8,
             px: { xs: 2, md: 6 },
-            bgcolor: "white",
+            bgcolor: 'white',
           }}
         >
-          {/* Left Side Image */}
           <Box
             component="img"
             src="https://thumbs.dreamstime.com/b/portrait-skincare-png-model-woman-isolated-transparent-background-beauty-cosmetics-face-portrait-skincare-277005787.jpg"
             alt="Beauty Model"
             sx={{
-              width: { xs: "100%", md: "40%" },
+              width: { xs: '100%', md: '40%' },
               borderRadius: 2,
               boxShadow: 3,
               mb: { xs: 4, md: 0 },
             }}
           />
 
-          {/* Right Side Text */}
-          <Box sx={{ ml: { md: 6 }, maxWidth: "600px" }}>
+          <Box sx={{ ml: { md: 6 }, maxWidth: '600px' }}>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold", mb: 2, color: "black" }}
+              sx={{ fontWeight: 'bold', mb: 2, color: 'black' }}
             >
               TIME FOR A CHANGE?
             </Typography>
-            <Typography variant="body1" sx={{ mb: 3, color: "black" }}>
+            <Typography variant="body1" sx={{ mb: 3, color: 'black' }}>
               At our salon, you’ll find a relaxing atmosphere and the expert touch of our
               stylists. We enhance your natural look and create a perfect style that matches
               your personality.
             </Typography>
             <Button
               variant="contained"
-              sx={{ backgroundColor: "#d4a373", color: "white", px: 4, py: 1.5 }}
+              sx={{ backgroundColor: '#d4a373', color: 'white', px: 4, py: 1.5 }}
             >
               BOOK NOW
             </Button>
@@ -258,68 +305,61 @@ function App() {
         </Box>
 
         {/* Our Services Section */}
-<Box sx={{ bgcolor: "#000", py: 8, textAlign: "center" }}>
-  <Typography variant="h6" sx={{ color: "#d4a373", mb: 1 }}>
-    Our Service
-  </Typography>
-  <Typography variant="h4" sx={{ color: "#fff", mb: 6, fontWeight: "bold" }}>
-    WHAT WE DO
-  </Typography>
+        <Box sx={{ bgcolor: '#000', py: 8, textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ color: '#d4a373', mb: 1 }}>
+            Our Service
+          </Typography>
+          <Typography variant="h4" sx={{ color: '#fff', mb: 6, fontWeight: 'bold' }}>
+            WHAT WE DO
+          </Typography>
 
-  {/* Cards (only first 5 shown) */}
-  <Grid container spacing={3} justifyContent="center">
-    {services.slice(0, 5).map((service, index) => (
-      <Grid item key={index} xs={12} sm={6} md={4} lg={2.4}>
-        <Card sx={{ position: "relative", height: 350, overflow: "hidden", width:250 }}>
-          <CardMedia
-            component="img"
-            image={service.img}
-            alt={service.title}
+          <Grid container spacing={3} justifyContent="center">
+            {services.slice(0, 5).map((service, index) => (
+              <Grid item key={index} xs={12} sm={6} md={4} lg={2.4}>
+                <Card sx={{ position: 'relative', height: 350, overflow: 'hidden', width: 250 }}>
+                  <CardMedia
+                    component="img"
+                    image={service.img}
+                    alt={service.title}
+                    sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                  />
+                  <CardContent
+                    sx={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      bgcolor: 'rgba(0,0,0,0.8)',
+                      color: '#fff',
+                      p: 1,
+                    }}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                      {service.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          <Button
+            variant="contained"
             sx={{
-              height: "100%",
-              width: "100%",
-              objectFit: "cover", // sab same size me rahenge
-            }}
-          />
-          <CardContent
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              bgcolor: "rgba(0,0,0,0.8)",
-              color: "#fff",
-              p: 1,
+              mt: 6,
+              bgcolor: '#d4a373',
+              color: '#000',
+              fontWeight: 'bold',
+              px: 4,
+              '&:hover': { bgcolor: '#b5835a' },
             }}
           >
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-              {service.title}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    ))}
-  </Grid>
-
-  {/* Learn More Button */}
-  <Button
-    variant="contained"
-    sx={{
-      mt: 6,
-      bgcolor: "#d4a373",
-      color: "#000",
-      fontWeight: "bold",
-      px: 4,
-      "&:hover": { bgcolor: "#b5835a" },
-    }}
-  >
-    LEARN MORE
-  </Button>
-</Box>
-
+            LEARN MORE
+          </Button>
+        </Box>
       </main>
 
-      <footer style={{ textAlign: "center", padding: "20px", background: "#111", color: "white" }}>
+      <footer style={{ textAlign: 'center', padding: '20px', background: '#111', color: 'white' }}>
         © 2025 Unique Beauty Parlour. All Rights Reserved.
       </footer>
     </React.Fragment>
