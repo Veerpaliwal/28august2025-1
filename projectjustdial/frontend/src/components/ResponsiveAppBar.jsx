@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,20 +11,27 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const pages = ["HOME", "SERVICES", "CONTACT US"];
+const mainPages = ["HOME", "CONTACT US"];
+const servicePages = [
+  "HAIR EXTENSION",
+  "EYELASH EXTENSION",
+  "SEMI-PERMANENT EYEBROW",
+  "MAKEUP ART",
+  "BRIDAL SERVICES",
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElServices, setAnchorElServices] = React.useState(null);
   const [elevate, setElevate] = React.useState(false);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleCloseNavMenu = () => setAnchorElNav(null);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const handleOpenServicesMenu = (event) => setAnchorElServices(event.currentTarget);
+  const handleCloseServicesMenu = () => setAnchorElServices(null);
 
   React.useEffect(() => {
     const handleScroll = () => setElevate(window.scrollY > 50);
@@ -32,9 +39,19 @@ function ResponsiveAppBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Function to get route path based on page name
-  const getPath = (page) =>
-    page === "HOME" ? "/" : page === "SERVICES" ? "/services" : "/contact";
+  // Convert page name to route path
+  const getPath = (page) => {
+    switch (page) {
+      case "HOME": return "/";
+      case "CONTACT US": return "/contact";
+      case "HAIR EXTENSION": return "/hair-extension";
+      case "EYELASH EXTENSION": return "/eyelash-extension";
+      case "SEMI-PERMANENT EYEBROW": return "/semi-permanent-eyebrow";
+      case "MAKEUP ART": return "/makeup-art";
+      case "BRIDAL SERVICES": return "/bridal-services";
+      default: return "/";
+    }
+  };
 
   return (
     <AppBar
@@ -48,7 +65,7 @@ function ResponsiveAppBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Desktop Logo */}
+          {/* Logo */}
           <PersonIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1, color: "white" }} />
           <Typography
             variant="h6"
@@ -67,30 +84,32 @@ function ResponsiveAppBar() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            unique beauty parlour
+            Unique Beauty Parlour
           </Typography>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu Button */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu} component={Link} to={getPath(page)}>
-                  <Typography sx={{ textAlign: "center" }}>{page}</Typography>
+              {[...mainPages, ...servicePages].map((page) => (
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={getPath(page)}
+                >
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
               <MenuItem>
@@ -128,38 +147,49 @@ function ResponsiveAppBar() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            unique beauty parlour
+            Unique Beauty Parlour
           </Typography>
 
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {mainPages.map((page) => (
               <Button
                 key={page}
                 component={Link}
                 to={getPath(page)}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  mx: 1.5,
-                  position: "relative",
-                  "&:after": {
-                    content: '""',
-                    position: "absolute",
-                    width: 0,
-                    height: 2,
-                    left: 0,
-                    bottom: -4,
-                    bgcolor: "#d4a373",
-                    transition: "0.3s",
-                  },
-                  "&:hover:after": { width: "100%" },
-                }}
+                sx={{ my: 2, color: "white", mx: 1.5 }}
               >
                 {page}
               </Button>
             ))}
+
+            {/* Services Dropdown */}
+            <Box sx={{ position: "relative" }}>
+              <Button
+                onClick={handleOpenServicesMenu}
+                sx={{ my: 2, color: "white", mx: 1.5 }}
+                endIcon={<ArrowDropDownIcon />}
+              >
+                SERVICES
+              </Button>
+              <Menu
+                anchorEl={anchorElServices}
+                open={Boolean(anchorElServices)}
+                onClose={handleCloseServicesMenu}
+                sx={{ mt: "8px" }}
+              >
+                {servicePages.map((service) => (
+                  <MenuItem
+                    key={service}
+                    onClick={handleCloseServicesMenu}
+                    component={Link}
+                    to={getPath(service)}
+                  >
+                    {service}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
           </Box>
 
           {/* Book Now Button */}
