@@ -89,9 +89,7 @@ function Home() {
             At our salon, you’ll find a relaxing atmosphere and the expert touch of our stylists.
             We enhance your natural look and create a perfect style that matches your personality.
           </Typography>
-          <Button variant="contained" sx={{ backgroundColor: "#d4a373", color: "white", px: 4, py: 1.5 }}>
-            BOOK NOW
-          </Button>
+       
         </Box>
       </Box>
 

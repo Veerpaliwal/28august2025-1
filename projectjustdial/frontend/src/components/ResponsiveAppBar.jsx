@@ -194,19 +194,7 @@ function ResponsiveAppBar() {
 
           {/* Book Now Button */}
           <Box sx={{ flexGrow: 0 }}>
-            <Button
-              variant="contained"
-              sx={{
-                background: "linear-gradient(45deg, #d4a373, #f4e1c1)",
-                color: "#000",
-                px: 3,
-                py: 1,
-                fontWeight: "bold",
-                "&:hover": { background: "linear-gradient(45deg, #b5835a, #f4e1c1)" },
-              }}
-            >
-              BOOK NOW
-            </Button>
+           
           </Box>
         </Toolbar>
       </Container>
